@@ -27,11 +27,6 @@ colnames(data_transformed) <- c('Year','Debt', 'GDP', 'ExchangeRate')
 
 head(data_transformed)
 
-# Assign variables
-
-y <- data_transformed$ExchangeRate
-X <- as.matrix(data_transformed[, c("Debt", "GDP")])
-
 # Summary of the data
 
 summary(data_transformed)

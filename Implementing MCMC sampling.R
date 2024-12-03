@@ -1,4 +1,4 @@
-source('Prior, Likelihood, and Posterior functions.R')
+# source('Prior, Likelihood, and Posterior functions.R')
 
 
 # Define the Metropolis algorithm
@@ -41,8 +41,8 @@ init <- c(prior_mu, 0.1, rep(0.1, ncol(X)), 0.1, 0.1, 0.1)
 
 # Run MCMC
 
-n_iter <- 1500
-proposal_sd <- 0.008
+n_iter <- 50000
+proposal_sd <- 0.055
 samples <- metropolis(init, y, X, n_iter, proposal_sd)
 
 

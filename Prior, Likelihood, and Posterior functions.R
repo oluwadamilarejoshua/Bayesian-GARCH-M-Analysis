@@ -1,4 +1,4 @@
-source('Data Preparation.R')
+source('Unit Root Evaluation and Handling.R')
 
 # Preliminary model (OLS estimation) for informative prior ----------------
 

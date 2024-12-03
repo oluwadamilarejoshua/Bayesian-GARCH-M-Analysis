@@ -1,5 +1,4 @@
-source('Implementing MCMC sampling.R')
-
+# source('Implementing MCMC sampling.R')
 
 library(coda)
 
@@ -15,4 +14,10 @@ plot(mcmc_samples[, 4], main="Trace Plot: Parameter 4")
 
 
 
+# Run diagnostics
 
+for (i in 1:4) {
+  print(paste("Parameter", i))
+  print(geweke.diag(mcmc_samples[, i]))  # Geweke Diagnostic
+  print(effectiveSize(mcmc_samples[, i]))  # Effective Sample Size
+}
