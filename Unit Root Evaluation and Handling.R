@@ -5,7 +5,7 @@ source("Data Preparation.R")
 library(tseries)
 
 
-# Assuming columns are named ExchangeRate, GDP, and Debt
+# Extracting columns
 
 ExchangeRate <- data_subset$ExchangeRate
 GDP <- data_subset$GDP
