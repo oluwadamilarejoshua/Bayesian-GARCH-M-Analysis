@@ -37,12 +37,22 @@ metropolis <- function(init, y, X, n_iter, proposal_sd) {
 
 # Initial values for parameters
 
-init <- c(prior_mu, 0.1, rep(0.1, ncol(X)), 0.1, 0.1, 0.1)
+# init <- c(prior_mu, 0.1, rep(0.1, ncol(X)), 0.1, 0.1, 0.1)
+
+ols_coefs <- coef(ols_model)
+ols_sigma <- summary(ols_model)$sigma^2
+
+init <- c(ols_coefs[1],   # Intercept
+          ols_sigma,      # Residual variance
+          ols_coefs[-1],  # Slopes for predictors
+          rep(ols_sigma, 3))
+
+
 
 # Run MCMC
 
 n_iter <- 50000
-proposal_sd <- 0.055
+proposal_sd <- 0.06
 samples <- metropolis(init, y, X, n_iter, proposal_sd)
 
 

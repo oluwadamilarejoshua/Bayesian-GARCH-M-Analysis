@@ -48,7 +48,7 @@ check_stationarity(GDP, "GDP")
 check_stationarity(Debt, "Debt")
 
 
-# Applying first-order diffeencing
+# Applying first-order differencing
 
 # ExchangeRate_diff <- diff(ExchangeRate)
 ExchangeRate_diff <- ExchangeRate[-1]
@@ -65,5 +65,5 @@ Debt_diff <- Debt[-1]
 # Assign variables
 
 y <- ExchangeRate_diff
-X <- as.matrix(Debt_diff, GDP_diff)
+X <- as.matrix(cbind(Debt_diff, GDP_diff))
 
