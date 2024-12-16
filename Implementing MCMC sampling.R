@@ -51,7 +51,7 @@ init <- c(ols_coefs[1],   # Intercept
 
 # Run MCMC
 
-n_iter <- 50000
+n_iter <- 200000
 proposal_sd <- 0.06
 samples <- metropolis(init, y, X, n_iter, proposal_sd)
 
