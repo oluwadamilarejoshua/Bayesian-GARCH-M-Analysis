@@ -32,7 +32,6 @@ log_prior <- function(params) {
   beta <- params[5 + ncol(X)]
   
   # Priors based on empirical evidence
-  
   prior_mu <- dnorm(mu, prior_mu, sqrt(prior_variance), log = TRUE)
   prior_gamma <- dnorm(gamma, 0, 10, log = TRUE)
   prior_beta_X <- sum(dnorm(beta_X, prior_beta, sqrt(prior_variance), log = TRUE))
@@ -42,6 +41,7 @@ log_prior <- function(params) {
   
   return(prior_mu + prior_gamma + prior_beta_X + prior_omega + prior_alpha + prior_beta)
 }
+
 
 # Defining log-likelihood function
 
@@ -69,6 +69,7 @@ log_likelihood <- function(params, y, X) {
   return(log_lik)
 }
 
+
 # Combining Prior and Likelihood for posterior
 
 log_posterior <- function(params, y, X) {
@@ -80,7 +81,6 @@ log_posterior <- function(params, y, X) {
   beta <- params[4 + ncol(X)]
   
   # Compute the log-prior
-  
   log_prior <- 0
   if (omega <= 0 || alpha <= 0 || beta <= 0 || (alpha + beta) >= 1) {
     return(-Inf)  # Invalid GARCH parameters
@@ -91,7 +91,6 @@ log_posterior <- function(params, y, X) {
     dbeta(beta, 2, 2, log = TRUE)
   
   # Compute the log-likelihood
-  
   n <- length(y)
   h <- numeric(n)
   h[1] <- var(y)  # Initialize variance
@@ -103,20 +102,20 @@ log_posterior <- function(params, y, X) {
       return(-Inf)  # Invalid variance
     }
     mu_t <- beta_0 + sum(beta_X * X[t, ])
-    log_likelihood <- log_likelihood + dnorm(y[t], mean = mu_t, sd = sqrt(h[t]), log = TRUE)
+    log_likelihood <- log_likelihood + 
+      dnorm(y[t], mean = mu_t, sd = sqrt(h[t]), log = TRUE)
   }
   
   # Total log-posterior
-  
   log_posterior_value <- log_prior + log_likelihood
   
   # Debugging output
-  
   cat("Log Prior:", log_prior, "\n")
   cat("Log Likelihood:", log_likelihood, "\n")
   cat("Log Posterior:", log_posterior_value, "\n")
   
   return(log_posterior_value)
 }
+
 
 
