@@ -42,8 +42,14 @@ init <- c(ols_coefs[1],        # Intercept
           0.1, 0.1, 0.1)      # Omega, Alpha, Beta (initial values)
 
 # Run MCMC
+<<<<<<< HEAD
 n_iter <- 200000
 proposal_sd <- 0.015
+=======
+
+n_iter <- 200000
+proposal_sd <- 0.5
+>>>>>>> 7350dcc0f73039616ae18a92de6047921a61c0ed
 samples <- metropolis(init, y, X, n_iter, proposal_sd)
 
 # Summarizing Results -----------------------------------------------------

@@ -50,15 +50,13 @@ check_stationarity(Debt, "Debt")
 
 # Applying first-order differencing
 
-# ExchangeRate_diff <- diff(ExchangeRate)
-ExchangeRate_diff <- ExchangeRate[-1]
+ExchangeRate_diff <- diff(ExchangeRate)
 GDP_diff <- diff(GDP)
-# Debt_diff <- diff(Debt)
-Debt_diff <- Debt[-1]
+Debt_diff <- diff(Debt)
 
-# check_stationarity(ExchangeRate_diff, "Differenced Exchange Rate")
-# check_stationarity(GDP_diff, "Differenced GDP")
-# check_stationarity(Debt_diff, "Differenced Debt")
+check_stationarity(ExchangeRate_diff, "Differenced Exchange Rate")
+check_stationarity(GDP_diff, "Differenced GDP")
+check_stationarity(Debt_diff, "Differenced Debt")
 
 
 

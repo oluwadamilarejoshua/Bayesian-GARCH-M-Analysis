@@ -1,11 +1,20 @@
 {
     "sourceWindowGeometry": {
+<<<<<<< HEAD
         "w2rrsf8ubwzxe": {
             "ordinal": 6,
             "x": 545,
             "y": 36,
             "width": 696,
             "height": 551
+=======
+        "wwq3294tfhrz6": {
+            "ordinal": 5,
+            "x": 283,
+            "y": 17,
+            "width": 784,
+            "height": 761
+>>>>>>> 7350dcc0f73039616ae18a92de6047921a61c0ed
         }
     }
 }
