@@ -1,8 +1,6 @@
 # source('Prior, Likelihood, and Posterior functions.R')
 
-
 # Define the Metropolis algorithm
-
 metropolis <- function(init, y, X, n_iter, proposal_sd) {
   params <- init
   samples <- matrix(NA, nrow = n_iter, ncol = length(init))
@@ -10,16 +8,16 @@ metropolis <- function(init, y, X, n_iter, proposal_sd) {
   
   for (i in 1:n_iter) {
     proposal <- rnorm(length(init), mean = params, sd = proposal_sd)
+    
     log_accept_ratio <- log_posterior(proposal, y, X) - log_posterior(params, y, X)
     
     # Debugging and safeguard
-    
-    if (is.na(log_accept_ratio) || is.nan(log_accept_ratio)) {
+    if (is.na(log_accept_ratio) || is.nan(log_accept_ratio) || is.infinite(log_accept_ratio)) {
       cat("Invalid log_accept_ratio at iteration", i, "\n")
       cat("Proposed Parameters:", proposal, "\n")
       cat("Log Posterior (proposal):", log_posterior(proposal, y, X), "\n")
       cat("Log Posterior (current):", log_posterior(params, y, X), "\n")
-      stop("log_accept_ratio is invalid. Check your log_posterior function.")
+      next  # Skip the current iteration
     }
     
     if (log(runif(1)) < log_accept_ratio) {
@@ -34,33 +32,25 @@ metropolis <- function(init, y, X, n_iter, proposal_sd) {
   return(samples)
 }
 
-
 # Initial values for parameters
-
-# init <- c(prior_mu, 0.1, rep(0.1, ncol(X)), 0.1, 0.1, 0.1)
-
 ols_coefs <- coef(ols_model)
 ols_sigma <- summary(ols_model)$sigma^2
 
-init <- c(ols_coefs[1],   # Intercept
-          ols_sigma,      # Residual variance
-          ols_coefs[-1],  # Slopes for predictors
-          rep(ols_sigma, 3))
-
-
+init <- c(ols_coefs[1],        # Intercept
+          0.1,                # Gamma (example starting value)
+          rep(0.1, ncol(X)),  # Coefficients for predictors
+          0.1, 0.1, 0.1)      # Omega, Alpha, Beta (initial values)
 
 # Run MCMC
-
-n_iter <- 50000
-proposal_sd <- 0.06
+n_iter <- 200000
+proposal_sd <- 0.015
 samples <- metropolis(init, y, X, n_iter, proposal_sd)
-
 
 # Summarizing Results -----------------------------------------------------
 
 # Posterior means and credible intervals
-posterior_means <- colMeans(samples)
-credible_intervals <- apply(samples, 2, quantile, probs = c(0.025, 0.975))
+posterior_means <- colMeans(samples, na.rm = TRUE)
+credible_intervals <- apply(samples, 2, quantile, probs = c(0.025, 0.975), na.rm = TRUE)
 
 # Print results
 cat("Posterior Means:\n", posterior_means, "\n")
@@ -70,8 +60,10 @@ cat("95% Credible Intervals:\n", credible_intervals, "\n")
 par(mfrow = c(3, 2))
 for (i in 1:ncol(samples)) {
   hist(samples[, i], main = paste("Parameter", i), xlab = "Value",
-       probability = TRUE)
+       probability = TRUE, col = "black", border = "black")
 }
+
+
 
 
 
